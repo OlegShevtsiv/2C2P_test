@@ -11,8 +11,12 @@ namespace _2C2P_test.Controllers
     [ApiController]
     public class TransactionController : ControllerBase
     {
+        /// <summary>
+        /// Hello!)
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        [Route("/")]
+        [Route("")]
         public IActionResult Hello() 
         {
             return Ok("Hello!");

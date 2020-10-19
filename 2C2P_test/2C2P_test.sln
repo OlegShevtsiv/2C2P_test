@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2C2P_test", "2C2P_test\2C2P_test.csproj", "{E832E265-3A1B-47B4-BC15-5FA6E7357FB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "2C2P_test", "2C2P_test\2C2P_test.csproj", "{E832E265-3A1B-47B4-BC15-5FA6E7357FB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2C2P_test.DAL", "2C2P_test.DAL\2C2P_test.DAL.csproj", "{EA360DC5-15AE-492D-BDDC-BF13D58F7DFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "2C2P_test.DAL", "2C2P_test.DAL\2C2P_test.DAL.csproj", "{EA360DC5-15AE-492D-BDDC-BF13D58F7DFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2C2P_test.BLL", "2C2P_test.BLL\2C2P_test.BLL.csproj", "{3CC39508-8B48-4BF5-91AB-30EB5713DE1B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{EA360DC5-15AE-492D-BDDC-BF13D58F7DFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA360DC5-15AE-492D-BDDC-BF13D58F7DFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA360DC5-15AE-492D-BDDC-BF13D58F7DFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CC39508-8B48-4BF5-91AB-30EB5713DE1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CC39508-8B48-4BF5-91AB-30EB5713DE1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CC39508-8B48-4BF5-91AB-30EB5713DE1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CC39508-8B48-4BF5-91AB-30EB5713DE1B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

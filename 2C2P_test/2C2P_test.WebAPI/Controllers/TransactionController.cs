@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -17,7 +18,7 @@ namespace _2C2P_test.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("")]
-        public IActionResult Hello() 
+        public IActionResult Hello(IFormFile file) 
         {
             return Ok("Hello!");
         }

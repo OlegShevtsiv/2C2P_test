@@ -4,7 +4,7 @@
         <name>2C2P_test.WebAPI</name>
     </assembly>
     <members>
-        <member name="M:_2C2P_test.Controllers.TransactionController.Hello">
+        <member name="M:_2C2P_test.Controllers.TransactionController.Hello(Microsoft.AspNetCore.Http.IFormFile)">
             <summary>
             Hello!)
             </summary>

@@ -18,6 +18,11 @@ namespace _2C2P_test.DAL.Repository.Implementations
             this.db = context;
         }
 
+        public IQueryable<Transaction> Get(Expression<Func<Transaction, bool>> predicate)
+        {
+            return db.Transactions.Where(predicate);
+        }
+
         public void Add(Transaction entity)
         {
             db.Transactions.Add(entity);
@@ -32,16 +37,6 @@ namespace _2C2P_test.DAL.Repository.Implementations
             //{
             //    db.Entry(e).State = EntityState.Added;
             //}
-        }
-
-        public IQueryable<Transaction> GetAll()
-        {
-            return db.Transactions;
-        }
-
-        public IQueryable<Transaction> Get(Expression<Func<Transaction, bool>> predicate)
-        {
-            return db.Transactions.Where(predicate);
         }
 
         public void Remove(Transaction entity)

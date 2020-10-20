@@ -2,6 +2,7 @@
 using _2C2P_test.BLL.Data;
 using _2C2P_test.BLL.DTO;
 using _2C2P_test.BLL.Exceptions;
+using _2C2P_test.BLL.Extensions;
 using _2C2P_test.BLL.Interfaces;
 using _2C2P_test.DAL.Models;
 using _2C2P_test.DAL.UnitOfWork;
@@ -23,7 +24,6 @@ namespace _2C2P_test.BLL.Implementations
         {
             this.Repository = unitOfWork.Transaction;
         }
-
 
         protected override TransactionDTO MapToDto(Transaction entity)
         {
@@ -62,7 +62,6 @@ namespace _2C2P_test.BLL.Implementations
 
             return entity;
         }
-
 
         public override void Add(TransactionDTO dto)
         {
@@ -191,16 +190,28 @@ namespace _2C2P_test.BLL.Implementations
                 throw new FileSizeException($"File '{fileStream.Name}' must be less than 1 MB.");
             }
 
-            using (TextReader tr = new StreamReader(fileStream)) 
+            IEnumerable<CsvTransactionModel> csvTransactions;
+
+            using (TextReader textReader = new StreamReader(fileStream)) 
             {
-                using (CsvReader csv = new CsvReader(tr, CultureInfo.InvariantCulture))
+                using (CsvReader csv = new CsvReader(textReader, CultureInfo.InvariantCulture))
                 {
                     csv.Configuration.RegisterClassMap<CsvTransactionModelMap>();
-                    var records = csv.GetRecords<CsvTransactionModel>();
+                    csvTransactions = csv.GetRecords<CsvTransactionModel>();
                 }
             }
 
+            IEnumerable<TransactionDTO> transactions = csvTransactions.Select(t => t.GetDTO()).ToList();
+
+            return transactions;
+        }
+
+        public IEnumerable<TransactionDTO> GetFromXML(FileStream fileStream) 
+        {
+
             return null;
         }
+
+
     }
 }

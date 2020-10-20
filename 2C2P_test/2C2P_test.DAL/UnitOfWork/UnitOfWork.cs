@@ -13,9 +13,9 @@ namespace _2C2P_test.DAL.UnitOfWork
         private readonly BankDbContext db;
         private TransactionRepository TransactionRepository;
 
-        public UnitOfWork(BankDbContext context)
+        public UnitOfWork()
         {
-            db = context;
+            db = new BankDbContext();
         }
 
         public IRepository<Transaction> Transaction 

@@ -1,9 +1,6 @@
 ﻿using _2C2P_test.BLL.BusinessModels.Enums;
-using CsvHelper.Configuration;
 using CsvHelper.Configuration.Attributes;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace _2C2P_test.BLL.BusinessModels
 {
@@ -24,17 +21,4 @@ namespace _2C2P_test.BLL.BusinessModels
         [Index(4)]
         public CsvTransactionStatus Status { get; set; }
     }
-
-    public class CsvTransactionModelMap : ClassMap<CsvTransactionModel>
-    {
-        public CsvTransactionModelMap()
-        {
-            Map(m => m.Id);
-            Map(m => m.Amount).Validate(field => !string.IsNullOrEmpty(field));
-            Map(m => m.CurrencyCode).Validate(field => !string.IsNullOrEmpty(field));
-            Map(m => m.TransactionDate).Validate(field => !string.IsNullOrEmpty(field));
-            Map(m => m.Status).Validate(field => !string.IsNullOrEmpty(field) && Enum.TryParse<CsvTransactionStatus>(field, true, out _));
-        }
-    }
-
 }

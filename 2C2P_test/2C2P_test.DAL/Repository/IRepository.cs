@@ -9,7 +9,7 @@ namespace _2C2P_test.DAL.Repository
     public interface IRepository<TEntity>
         where TEntity : class
     {
-        IQueryable<TEntity> Get();
+        IQueryable<TEntity> GetAll();
         IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> predicate);
 
         void Add(TEntity entity);

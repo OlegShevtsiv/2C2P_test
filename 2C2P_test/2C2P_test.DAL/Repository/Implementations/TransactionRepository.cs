@@ -27,17 +27,11 @@ namespace _2C2P_test.DAL.Repository.Implementations
         public void Add(Transaction entity)
         {
             db.Transactions.Add(entity);
-            //db.Entry(entity).State = EntityState.Added;
         }
 
         public void Add(IEnumerable<Transaction> entities)
         {
             db.Transactions.AddRange(entities);
-
-            //foreach (var e in entities) 
-            //{
-            //    db.Entry(e).State = EntityState.Added;
-            //}
         }
 
         public void Remove(Transaction entity)
@@ -46,7 +40,6 @@ namespace _2C2P_test.DAL.Repository.Implementations
             if (entityToDelete != null)
             {
                 db.Transactions.Remove(entityToDelete);
-                //db.Entry(entityToDelete).State = EntityState.Deleted;
             }
         }
 
@@ -59,7 +52,6 @@ namespace _2C2P_test.DAL.Repository.Implementations
                 if (entityToDelete != null)
                 {
                     db.Transactions.Remove(entityToDelete);
-                    //db.Entry(entityToDelete).State = EntityState.Deleted;
                 }
             }
         }

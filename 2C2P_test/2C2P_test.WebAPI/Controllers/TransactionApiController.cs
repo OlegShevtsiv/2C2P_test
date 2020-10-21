@@ -18,6 +18,8 @@ using _2C2P_test.BLL.Data;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using System.Xml;
+using _2C2P_test.HttpModels.ResponseModels;
+using _2C2P_test.Loggers.FileLogger;
 
 namespace _2C2P_test.Controllers
 {
@@ -26,12 +28,15 @@ namespace _2C2P_test.Controllers
     public class TransactionApiController : ControllerBase
     {
         private readonly ITransactionService transactionService;
-        private readonly ILogger logger;
-        public TransactionApiController(ITransactionService _transactionService, 
-                                        ILogger<TransactionApiController> _logger)
+        private readonly ILogger<FileLogger> logger;
+        private readonly IHostingEnvironment hostingEnvironment;
+        public TransactionApiController(ITransactionService _transactionService,
+                                        ILoggerFactory loggerFactory,
+                                        IHostingEnvironment _hostingEnvironment)
         {
             this.transactionService = _transactionService;
-            this.logger = _logger;
+            this.logger = loggerFactory.CreateLogger<FileLogger>();
+            this.hostingEnvironment = _hostingEnvironment;
         }
 
         /// <summary>
@@ -56,6 +61,7 @@ namespace _2C2P_test.Controllers
                 if (exc is InvalidFileExtensionException || exc is InvalidCsvRecord || exc is XmlException || exc is InvalidXmlFileException)
                 {
                     logger.LogError(exc.Message + $" File name '{file.FileName}'");
+                    logger.LogUploadedFile(file, Path.Combine(hostingEnvironment.ContentRootPath, @"Logs\\InvalidUploadedFiles"));
                     return BadRequest(exc.Message);
                 }
 
@@ -71,7 +77,8 @@ namespace _2C2P_test.Controllers
         [HttpGet]
         public IActionResult GetByCurrencyCode([Required]string currencyCode)
         {
-            var result = this.transactionService.Get(new TransactionFilterByCurrency(currencyCode));
+            var transactions = this.transactionService.Get(new TransactionFilterByCurrency(currencyCode));
+            var result = transactions.Select(t => new TransactionResponseModel(t)).ToList();
             return new ObjectResult(result);
         }
 
@@ -84,7 +91,8 @@ namespace _2C2P_test.Controllers
         [HttpGet]
         public IActionResult GetByDateRange([Required] DateTime minTime, [Required] DateTime maxTime)
         {
-            var result = this.transactionService.Get(new TransactionFilterByDateRange(minTime, maxTime));
+            var transactions = this.transactionService.Get(new TransactionFilterByDateRange(minTime, maxTime));
+            var result = transactions.Select(t => new TransactionResponseModel(t)).ToList();
             return new ObjectResult(result);
         }
 
@@ -96,7 +104,8 @@ namespace _2C2P_test.Controllers
         [HttpGet]
         public IActionResult GetByStatus([Required]TransactionDTOStatus status)
         {
-            var result = this.transactionService.Get(new TransactionFilterByStatus(status));
+            var transactions = this.transactionService.Get(new TransactionFilterByStatus(status));
+            var result = transactions.Select(t => new TransactionResponseModel(t)).ToList();
             return new ObjectResult(result);
         }
     }

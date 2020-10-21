@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace _2C2P_test.Loggers.FileLogger
 {
-    public class FileLogger : ILogger
+    public class FileLogger : ILogger, ILogger<FileLogger>
     {
-        private string filePath;
-        private static object _lock = new object();
+        private readonly string filePath;
+        private static readonly object _lock = new object();
         public FileLogger(string path)
         {
             filePath = path;
@@ -25,10 +25,6 @@ namespace _2C2P_test.Loggers.FileLogger
         {
             //return logLevel == LogLevel.Trace;
             return true;
-        }
-
-        public void SaveUploadedFile(IFormFile file) 
-        {
         }
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)

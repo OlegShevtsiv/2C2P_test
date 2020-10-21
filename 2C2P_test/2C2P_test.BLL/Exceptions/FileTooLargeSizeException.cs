@@ -4,9 +4,9 @@ using System.Text;
 
 namespace _2C2P_test.BLL.Exceptions
 {
-    public class FileExtensionException : Exception
+    public class FileTooLargeSizeException : Exception
     {
-        public FileExtensionException(string message) : base(message)
+        public FileTooLargeSizeException(string message) : base(message)
         {
 
         }

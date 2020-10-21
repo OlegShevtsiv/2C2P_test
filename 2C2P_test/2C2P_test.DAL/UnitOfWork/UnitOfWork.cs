@@ -18,6 +18,11 @@ namespace _2C2P_test.DAL.UnitOfWork
             db = new BankDbContext();
         }
 
+        public UnitOfWork(BankDbContext context)
+        {
+            db = context;
+        }
+
         public IRepository<Transaction> Transaction 
         {
             get

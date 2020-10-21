@@ -4,10 +4,33 @@
         <name>2C2P_test.WebAPI</name>
     </assembly>
     <members>
-        <member name="M:_2C2P_test.Controllers.TransactionController.Hello(Microsoft.AspNetCore.Http.IFormFile)">
+        <member name="M:_2C2P_test.Controllers.TransactionApiController.UploadFile(Microsoft.AspNetCore.Http.IFormFile)">
             <summary>
-            Hello!)
+            Upload CSV or XML file to database;
+            Form file hasn't be larger than 1 Mb
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:_2C2P_test.Controllers.TransactionApiController.GetByCurrencyCode(System.String)">
+            <summary>
+            Gets all transactions by currency code
+            </summary>
+            <param name="currencyCode">Text in ISO4217 format</param>
+            <returns></returns>
+        </member>
+        <member name="M:_2C2P_test.Controllers.TransactionApiController.GetByDateRange(System.DateTime,System.DateTime)">
+            <summary>
+            Gets all transactions which date is between two dates
+            </summary>
+            <param name="minTime"></param>
+            <param name="maxTime"></param>
+            <returns></returns>
+        </member>
+        <member name="M:_2C2P_test.Controllers.TransactionApiController.GetByStatus(_2C2P_test.BLL.DTO.Enums.TransactionDTOStatus)">
+            <summary>
+            Gets all transactions by status
+            </summary>
+            <param name="status">0 - Approved, 1 - Failed or Rejected, 2 - Finished or Done </param>
             <returns></returns>
         </member>
     </members>

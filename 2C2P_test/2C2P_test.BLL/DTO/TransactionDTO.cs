@@ -1,8 +1,6 @@
-﻿using _2C2P_test.DAL.Models.Enums;
-using _2C2P_test.DAL.Models;
+﻿using _2C2P_test.BLL.DTO.Enums;
+using _2C2P_test.DAL.Models.Enums;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace _2C2P_test.BLL.DTO
 {
@@ -16,14 +14,14 @@ namespace _2C2P_test.BLL.DTO
 
         public DateTime TransactionDate { get; set; }
 
-        public TransactionStatus Status { get; set; }
+        public TransactionDTOStatus Status { get; set; }
 
         public TransactionDTO()
         {
            
         }
 
-        public TransactionDTO(string id, decimal amount, string currencyCode, DateTime transactionDate, TransactionStatus status)
+        public TransactionDTO(string id, decimal amount, string currencyCode, DateTime transactionDate, TransactionDTOStatus status)
         {
             Id = id;
             Amount = amount;

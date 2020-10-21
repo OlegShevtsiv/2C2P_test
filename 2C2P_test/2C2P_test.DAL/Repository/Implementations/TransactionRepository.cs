@@ -18,9 +18,10 @@ namespace _2C2P_test.DAL.Repository.Implementations
             this.db = context;
         }
 
-        public IQueryable<Transaction> Get(Expression<Func<Transaction, bool>> predicate)
+        public IEnumerable<Transaction> Get(Func<Transaction, bool> predicate)
         {
-            return db.Transactions.Where(predicate);
+            var result = db.Transactions.AsEnumerable().Where(predicate);
+            return result;
         }
 
         public void Add(Transaction entity)

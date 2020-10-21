@@ -61,7 +61,7 @@ namespace _2C2P_test.Controllers
                 if (exc is InvalidFileExtensionException || exc is InvalidCsvRecord || exc is XmlException || exc is InvalidXmlFileException)
                 {
                     logger.LogError(exc.Message + $" File name '{file.FileName}'");
-                    logger.LogUploadedFile(file, Path.Combine(hostingEnvironment.ContentRootPath, @"Logs\\InvalidUploadedFiles"));
+                    logger.LogUploadedFile(file, Path.Combine(hostingEnvironment.ContentRootPath, @"Logs\InvalidUploadedFiles"));
                     return BadRequest(exc.Message);
                 }
 

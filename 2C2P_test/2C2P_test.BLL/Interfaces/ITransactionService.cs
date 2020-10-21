@@ -10,9 +10,6 @@ namespace _2C2P_test.BLL.Interfaces
 {
     public interface ITransactionService : IService<TransactionDTO, IFilter>
     {
-        //IEnumerable<TransactionDTO> GetFromCSV(StreamReader fileStream);
-
-        //IEnumerable<TransactionDTO> GetFromXML(StreamReader fileStream);
-        IEnumerable<TransactionDTO> UploadFromFile(StreamReader reader, string fileName);
+        void UploadFromFile(StreamReader reader, string fileName);
     }
 }

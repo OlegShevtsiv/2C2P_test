@@ -10,7 +10,7 @@ using System.Text;
 
 namespace _2C2P_test.BLL.Extensions
 {
-    internal static class TransactionCsvExtensions
+    internal static class TransactionCsvXmlExtensions
     {
         public static TransactionDTO GetDTO(this CsvTransactionModel csv) 
         {
@@ -19,6 +19,16 @@ namespace _2C2P_test.BLL.Extensions
                                                     csv.CurrencyCode, 
                                                     csv.TransactionDate, 
                                                     (TransactionDTOStatus)csv.Status);
+            return dto;
+        }
+
+        public static TransactionDTO GetDTO(this XmlTransactionModel xml) 
+        {
+            TransactionDTO dto = new TransactionDTO(xml.Id,
+                                                    xml.PaymentDetails.Amount,
+                                                    xml.PaymentDetails.CurrencyCode,
+                                                    xml.TransactionDate,
+                                                    (TransactionDTOStatus)xml.Status);
             return dto;
         }
     }

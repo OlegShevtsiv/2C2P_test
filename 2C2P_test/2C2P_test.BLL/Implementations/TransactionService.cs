@@ -203,7 +203,7 @@ namespace _2C2P_test.BLL.Implementations
             _unitOfWork.SaveChanges();
         }
 
-        public IEnumerable<TransactionDTO> UploadFromFile(StreamReader reader, string fileName) 
+        public void UploadFromFile(StreamReader reader, string fileName) 
         {
             if (reader == null)
             {
@@ -211,18 +211,24 @@ namespace _2C2P_test.BLL.Implementations
             }
 
             string fileExtension = Path.GetExtension(fileName).ToLower();
+            List<TransactionDTO> dtos;
 
             if (fileExtension == Constants.CsvExtension)
             {
-                return this.UploadFromCSV(reader);
+                dtos = this.UploadFromCSV(reader).ToList();
             }
             else if (fileExtension == Constants.XmlExtension)
             {
-                return this.UploadFromXML(reader);
+                dtos = this.UploadFromXML(reader).ToList();
             }
             else 
             {
                 throw new InvalidFileExtensionException();
+            }
+
+            foreach (var dto in dtos)
+            {
+                this.Add(dto);
             }
         }
 
@@ -236,7 +242,7 @@ namespace _2C2P_test.BLL.Implementations
                 throw new InvalidCsvRecord("Invalid csv header!");
             }
 
-            uint index = 1;
+            uint index = 2;
             while (reader.Peek() >= 0)
             {
                 csvTransactions.Add(CsvTransactionModel.GetFromCsvRow(reader.ReadLine(), index));
@@ -256,10 +262,40 @@ namespace _2C2P_test.BLL.Implementations
             return transactions;
         }
 
-        private IEnumerable<TransactionDTO> UploadFromXML(StreamReader fileStream)
+        private IEnumerable<TransactionDTO> UploadFromXML(StreamReader reader)
         {
+            List<XmlTransactionModel> xmlTransactions = new List<XmlTransactionModel>();
 
-            return null;
+            string xmlDocumentString = string.Empty;
+            if (reader.Peek() >= 0) 
+            {
+                xmlDocumentString = reader.ReadToEnd();
+            }
+
+            using (TextReader sr = new StringReader(xmlDocumentString))
+            {
+                var serializer = new System.Xml.Serialization.XmlSerializer(typeof(XmlTransactionModels));
+                try
+                {
+                    xmlTransactions = ((XmlTransactionModels)serializer.Deserialize(sr)).Transactions.ToList();
+                }
+                catch (InvalidOperationException exc) 
+                {
+                    throw new InvalidXmlFileException();
+                }
+            }
+
+            IEnumerable<TransactionDTO> transactions;
+            if (xmlTransactions != null && xmlTransactions.Count > 0)
+            {
+                transactions = xmlTransactions.Select(t => t.GetDTO()).ToList();
+            }
+            else
+            {
+                transactions = new List<TransactionDTO>();
+            }
+
+            return transactions;
         }
 
         private Func<Transaction, bool> GetPredicate(IFilter filter)

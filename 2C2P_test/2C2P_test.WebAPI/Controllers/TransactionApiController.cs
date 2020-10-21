@@ -17,6 +17,7 @@ using _2C2P_test.BLL.Exceptions;
 using _2C2P_test.BLL.Data;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using System.Xml;
 
 namespace _2C2P_test.Controllers
 {
@@ -43,26 +44,20 @@ namespace _2C2P_test.Controllers
         {
             try
             {
-                List<TransactionDTO> dtos;
                 using (var reader = new StreamReader(file.OpenReadStream()))
                 {
-                    dtos = this.transactionService.UploadFromFile(reader, file.FileName).ToList();
+                    this.transactionService.UploadFromFile(reader, file.FileName);
                 }
-
-                foreach(var dto in dtos)
-                {
-                    this.transactionService.Add(dto);
-                }
-
                 return Ok();
             }
-            catch (InvalidFileExtensionException exc)
+            catch (Exception exc)
             {
-                return BadRequest(exc.Message);
-            }
-            catch (FileTooLargeSizeException exc)
-            {
-                return BadRequest(exc.Message);
+                if (exc is InvalidFileExtensionException || exc is InvalidCsvRecord || exc is XmlException || exc is InvalidXmlFileException)
+                {
+                    return BadRequest(exc.Message);
+                }
+
+                throw exc;
             }
         }
 

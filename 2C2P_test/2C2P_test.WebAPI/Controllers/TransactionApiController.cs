@@ -26,11 +26,12 @@ namespace _2C2P_test.Controllers
     public class TransactionApiController : ControllerBase
     {
         private readonly ITransactionService transactionService;
-        private readonly IHostingEnvironment hostingEnvironment;
-        public TransactionApiController(ITransactionService _transactionService, IHostingEnvironment _hostingEnvironment)
+        private readonly ILogger logger;
+        public TransactionApiController(ITransactionService _transactionService, 
+                                        ILogger<TransactionApiController> _logger)
         {
             this.transactionService = _transactionService;
-            this.hostingEnvironment = _hostingEnvironment;
+            this.logger = _logger;
         }
 
         /// <summary>
@@ -54,6 +55,7 @@ namespace _2C2P_test.Controllers
             {
                 if (exc is InvalidFileExtensionException || exc is InvalidCsvRecord || exc is XmlException || exc is InvalidXmlFileException)
                 {
+                    logger.LogError(exc.Message + $" File name '{file.FileName}'");
                     return BadRequest(exc.Message);
                 }
 

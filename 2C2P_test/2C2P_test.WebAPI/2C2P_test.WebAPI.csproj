@@ -24,9 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Loggers\FileLogger\" />
-    <Folder Include="Logs\InvalidCsvFiles\" />
-    <Folder Include="Logs\InvalidXmlFiles\" />
+    <Folder Include="Logs\InvalidUploadedFiles\" />
   </ItemGroup>
 
 

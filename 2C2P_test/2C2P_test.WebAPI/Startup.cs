@@ -17,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore.Design;
+using _2C2P_test.Loggers.FileLogger;
 
 namespace _2C2P_test
 {
@@ -42,11 +43,14 @@ namespace _2C2P_test
             });
 
             services.AddScoped<ITransactionService, TransactionService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddFile(Path.Combine(Directory.GetCurrentDirectory(), "Logs/log.txt"));
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -46,7 +46,7 @@ namespace _2C2P_test.Controllers
         /// <returns></returns>
         [HttpPost]
         [RequestFormLimits(MultipartBodyLengthLimit = Constants._1MbLength)]
-        public IActionResult UploadFile([Required]IFormFile file) 
+        public IActionResult UploadFile([Required]IFormFile file)
         {
             try
             {

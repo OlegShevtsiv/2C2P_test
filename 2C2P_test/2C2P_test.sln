@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "2C2P_test.BLL", "2C2P_test.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "2C2P_test.WebAPI", "2C2P_test.WebAPI\2C2P_test.WebAPI.csproj", "{6CA8444A-DE3E-4D62-B914-FFEAD456CDD2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2C2P_test.Website", "2C2P_test.Website\2C2P_test.Website.csproj", "{F5F6D96A-04C6-424D-8FD2-426F1AAAC9D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{6CA8444A-DE3E-4D62-B914-FFEAD456CDD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6CA8444A-DE3E-4D62-B914-FFEAD456CDD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CA8444A-DE3E-4D62-B914-FFEAD456CDD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5F6D96A-04C6-424D-8FD2-426F1AAAC9D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5F6D96A-04C6-424D-8FD2-426F1AAAC9D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5F6D96A-04C6-424D-8FD2-426F1AAAC9D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5F6D96A-04C6-424D-8FD2-426F1AAAC9D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

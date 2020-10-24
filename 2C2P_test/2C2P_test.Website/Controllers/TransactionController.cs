@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using System.Net.Http;
 using System.IO;
 using System.Globalization;
+using _2C2P_test.Website.Configs;
 
 namespace _2C2P_test.Website.Controllers
 {
@@ -41,9 +42,11 @@ namespace _2C2P_test.Website.Controllers
 
                     content.Add(new StreamContent(memoryStream), "file", uploadedFile.FileName);
 
-                    using (var message = await client.PostAsync("https://localhost:5001/api/transaction/UploadFile", content))
+                    using (var message = await client.PostAsync(Urls.ApiUrl + "/api/transaction/UploadFile", content))
                     {
                         var input = await message.Content.ReadAsStringAsync();
+                        var inpurt =  message.Content;
+
                     }
                 }
             }

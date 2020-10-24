@@ -17,14 +17,21 @@ namespace _2C2P_test.Loggers.FileLogger
             return factory;
         }
 
-        public static async void LogUploadedFile(this ILogger<FileLogger> logger, IFormFile file, string logDirPath) 
+        public static async void LogUploadedFile(this ILogger<FileLogger> logger, IFormFile file, string logDirName = "InvalidUploadedFiles") 
         {
             string fileName = file.FileName;
-
             string path;
             string fileExtension;
             int index = 1;
-            while (File.Exists(Path.Combine(logDirPath, fileName)))
+
+            string directoryPath = Path.Combine(FileLogger.OutputDirectoryName, logDirName);
+
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
+            while (File.Exists(Path.Combine(directoryPath, fileName)))
             {
                 fileExtension = Path.GetExtension(fileName);
                 fileName = fileName.Replace(fileExtension, string.Empty);
@@ -32,9 +39,9 @@ namespace _2C2P_test.Loggers.FileLogger
                 fileName += fileExtension;
             }
 
-            path = Path.Combine(logDirPath, fileName);
+            path = Path.Combine(directoryPath, fileName);
 
-            using (var fileStream = new FileStream(path, FileMode.Create))
+            using (var fileStream = new FileStream(path, FileMode.OpenOrCreate))
             {
                 await file.CopyToAsync(fileStream);
             }

@@ -48,7 +48,7 @@ namespace _2C2P_test
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddFile(Path.Combine(Directory.GetCurrentDirectory(), "Logs/log.txt"));
+            loggerFactory.AddFile("log.txt");
 
             if (env.IsDevelopment())
             {

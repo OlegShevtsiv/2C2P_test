@@ -1,20 +1,18 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace _2C2P_test.Loggers.FileLogger
 {
     public class FileLogger : ILogger, ILogger<FileLogger>
     {
         private readonly string filePath;
+        public static string OutputDirectoryName = "LogsStorage";
         private static readonly object _lock = new object();
-        public FileLogger(string path)
+
+        public FileLogger(string fileName)
         {
-            filePath = path;
+            this.filePath = Path.Combine(OutputDirectoryName, fileName);
         }
         public IDisposable BeginScope<TState>(TState state)
         {
@@ -23,7 +21,6 @@ namespace _2C2P_test.Loggers.FileLogger
 
         public bool IsEnabled(LogLevel logLevel)
         {
-            //return logLevel == LogLevel.Trace;
             return true;
         }
 
@@ -33,7 +30,17 @@ namespace _2C2P_test.Loggers.FileLogger
             {
                 lock (_lock)
                 {
-                    File.AppendAllText(filePath, formatter(state, exception) + Environment.NewLine);
+                    if (!Directory.Exists(OutputDirectoryName))
+                    {
+                        Directory.CreateDirectory(OutputDirectoryName);
+                    }
+
+                    if (!File.Exists(this.filePath))
+                    {
+                        File.Create(this.filePath).Close();
+                    }
+
+                    File.AppendAllText(this.filePath, formatter(state, exception) + Environment.NewLine);
                 }
             }
         }

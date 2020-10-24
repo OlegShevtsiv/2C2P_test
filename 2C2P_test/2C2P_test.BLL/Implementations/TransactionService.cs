@@ -237,6 +237,7 @@ namespace _2C2P_test.BLL.Implementations
             List<CsvTransactionModel> csvTransactions = new List<CsvTransactionModel>();
 
             //Get header
+            int peek = reader.Peek();
             if (reader.Peek() >= 0 && string.IsNullOrEmpty(reader.ReadLine()))
             {
                 throw new InvalidCsvRecord("Invalid csv header!");

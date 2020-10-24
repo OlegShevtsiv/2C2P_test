@@ -236,18 +236,53 @@ namespace _2C2P_test.BLL.Implementations
         {
             List<CsvTransactionModel> csvTransactions = new List<CsvTransactionModel>();
 
-            //Get header
-            int peek = reader.Peek();
-            if (reader.Peek() >= 0 && string.IsNullOrEmpty(reader.ReadLine()))
+            using (TextReader tr = reader)
             {
-                throw new InvalidCsvRecord("Invalid csv header!");
-            }
+                //Get header
 
-            uint index = 2;
-            while (reader.Peek() >= 0)
-            {
-                csvTransactions.Add(CsvTransactionModel.GetFromCsvRow(reader.ReadLine(), index));
-                index++;
+                Dictionary<string, int> fieldIndexes = new Dictionary<string, int>();
+                string header = "";
+                if (tr.Peek() > 0)
+                {
+                    header = reader.ReadLine();
+                    if (string.IsNullOrEmpty(header))
+                    {
+                        throw new InvalidCsvRecord("Csv file must contain header!");
+                    }
+                    else
+                    {
+                        List<string> fieldNames = header.Split('"')
+                                            .Select(f => f.Trim())
+                                            .Where(f => !string.IsNullOrWhiteSpace(f) && f != ",")
+                                            .ToList();
+
+                        if (fieldNames.Count != 5)
+                        {
+                            throw new InvalidCsvRecord($"Csv header must contain 5 fields!");
+                        }
+
+                        var CsvTransactionModelProperties = typeof(CsvTransactionModel).GetProperties().Select(p => p.Name).ToList();
+                        for (int i = 0; i < fieldNames.Count; i++)
+                        {
+                            if (CsvTransactionModelProperties.Contains(fieldNames[i]))
+                            {
+                                fieldIndexes.Add(fieldNames[i], i);
+                            }
+                            else
+                            {
+                                throw new InvalidCsvRecord($"Invalid csv header! Unknown field {fieldNames[i]}");
+                            }
+                        }
+                    }
+                }
+                
+
+                uint lineNumber = 2;
+                while (tr.Peek() > 0)
+                {
+                    csvTransactions.Add(CsvTransactionModel.GetFromCsvRow(reader.ReadLine(), fieldIndexes, lineNumber));
+                    lineNumber++;
+                }
             }
 
             IEnumerable<TransactionDTO> transactions;

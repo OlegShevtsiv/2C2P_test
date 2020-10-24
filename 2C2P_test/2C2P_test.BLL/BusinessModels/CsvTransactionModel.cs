@@ -21,7 +21,7 @@ namespace _2C2P_test.BLL.BusinessModels
 
         public CsvTransactionStatus Status { get; set; }
 
-        public static CsvTransactionModel GetFromCsvRow(string csvRow, uint lineNumber) 
+        public static CsvTransactionModel GetFromCsvRow(string csvRow, Dictionary<string, int> fieldIndexes, uint lineNumber) 
         {
             if (string.IsNullOrEmpty(csvRow)) 
             {
@@ -40,50 +40,75 @@ namespace _2C2P_test.BLL.BusinessModels
 
             CsvTransactionModel csvTransactionModel = new CsvTransactionModel();
 
-            csvTransactionModel.Id = fields[0];
-
             decimal amount;
-            if (decimal.TryParse(fields[1], NumberStyles.Currency, CultureInfo.InvariantCulture, out amount))
+            CsvTransactionStatus status;
+            DateTime dateTime;
+            foreach (var fieldIndex in fieldIndexes)
             {
-                csvTransactionModel.Amount = amount;
-            }
-            else 
-            {
-                throw new InvalidCsvRecord($"Amount field is invalid at line {lineNumber}!");
-            }
+                if (fieldIndex.Key == nameof(CsvTransactionModel.Id))
+                {
+                    csvTransactionModel.Id = fields[fieldIndex.Value];
+                    continue;
+                }
 
-            if (fields[2].Length == 3)
-            {
-                csvTransactionModel.CurrencyCode = fields[2];
-            }
-            else 
-            {
-                throw new InvalidCsvRecord($"Invalid CurrencyCode field at line {lineNumber}!");
-            }
+                if (fieldIndex.Key == nameof(CsvTransactionModel.Amount))
+                {
+                    if (decimal.TryParse(fields[fieldIndex.Value], NumberStyles.Currency, CultureInfo.InvariantCulture, out amount))
+                    {
+                        csvTransactionModel.Amount = amount;
+                        continue;
+                    }
+                    else
+                    {
+                        throw new InvalidCsvRecord($"{fieldIndex.Key} field is invalid at line {lineNumber}!");
+                    }
+                }
 
+                if (fieldIndex.Key == nameof(CsvTransactionModel.CurrencyCode))
+                {
+                    if (fields[fieldIndex.Value].Length == 3)
+                    {
+                        csvTransactionModel.CurrencyCode = fields[fieldIndex.Value];
+                        continue;
+                    }
+                    else
+                    {
+                        throw new InvalidCsvRecord($"Invalid {fieldIndex.Key} field at line {lineNumber}!");
+                    }
+                }
 
-            if (Regex.IsMatch(fields[3], dateTimeRegexPattern)
-                && DateTime.TryParse(fields[3], out var dateTime)
-                && dateTime <= SqlDateTime.MaxValue.Value
-                && dateTime >= SqlDateTime.MinValue.Value)
-            {
-                csvTransactionModel.TransactionDate = dateTime;
-            }
-            else 
-            {
-                throw new InvalidCsvRecord($"Invalid CurrencyCode field at line {lineNumber}!");
-            }
+                if (fieldIndex.Key == nameof(CsvTransactionModel.TransactionDate))
+                {
+                    if (Regex.IsMatch(fields[fieldIndex.Value], dateTimeRegexPattern)
+                        && DateTime.TryParse(fields[fieldIndex.Value],
+                                             CultureInfo.GetCultureInfo("es-ES"),
+                                             DateTimeStyles.None,
+                                             out dateTime)
+                        && dateTime <= SqlDateTime.MaxValue.Value
+                        && dateTime >= SqlDateTime.MinValue.Value)
+                    {
+                        csvTransactionModel.TransactionDate = dateTime;
+                        continue;
+                    }
+                    else
+                    {
+                        throw new InvalidCsvRecord($"Invalid {fieldIndex.Key} field at line {lineNumber}!");
+                    }
+                }
 
-
-            if (Enum.TryParse<CsvTransactionStatus>(fields[4], true, out var status))
-            {
-                csvTransactionModel.Status = status;
+                if (fieldIndex.Key == nameof(CsvTransactionModel.Status))
+                {
+                    if (Enum.TryParse(fields[fieldIndex.Value], true, out status))
+                    {
+                        csvTransactionModel.Status = status;
+                        continue;
+                    }
+                    else
+                    {
+                        throw new InvalidCsvRecord($"Invalid {fieldIndex.Key} field at line {lineNumber}!");
+                    }
+                }
             }
-            else 
-            {
-                throw new InvalidCsvRecord($"Invalid Status field at line {lineNumber}!");
-            }
-
 
             return csvTransactionModel;
         }

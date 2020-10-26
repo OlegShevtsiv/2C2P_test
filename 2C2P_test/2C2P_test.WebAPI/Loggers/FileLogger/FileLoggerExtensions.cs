@@ -22,7 +22,6 @@ namespace _2C2P_test.Loggers.FileLogger
             string fileName = file.FileName;
             string path;
             string fileExtension;
-            int index = 1;
 
             string directoryPath = Path.Combine(FileLogger.OutputDirectoryName, logDirName);
 
@@ -31,15 +30,18 @@ namespace _2C2P_test.Loggers.FileLogger
                 Directory.CreateDirectory(directoryPath);
             }
 
-            while (File.Exists(Path.Combine(directoryPath, fileName)))
+            int index = 1;
+            string newFileName = fileName;
+            while (File.Exists(Path.Combine(directoryPath, newFileName)))
             {
-                fileExtension = Path.GetExtension(fileName);
-                fileName = fileName.Replace(fileExtension, string.Empty);
-                fileName += index.ToString();
-                fileName += fileExtension;
+                fileExtension = Path.GetExtension(newFileName);
+                newFileName = fileName.Replace(fileExtension, string.Empty);
+                newFileName += index.ToString();
+                newFileName += fileExtension;
+                index++;
             }
 
-            path = Path.Combine(directoryPath, fileName);
+            path = Path.Combine(directoryPath, newFileName);
 
             using (var fileStream = new FileStream(path, FileMode.OpenOrCreate))
             {

@@ -4,14 +4,30 @@
 
 }
 
-<div class="text-center">
+    <div class="text-center">
 
-    <form asp-action="UploadFile" asp-controller="Transaction" method="post" enctype="multipart/form-data">
+        <form asp-action="UploadFile" asp-controller="Transaction" method="post" enctype="multipart/form-data">
 
-        <input type="file" name="uploadedFile" /><br>
+            <input required type="file" name="uploadedFile" /><br>
 
-        <input type="submit" class="btn btn-success" value="Upload" />
+            <input type="submit" class="btn btn-success" value="Upload" />
 
-    </form>
+        </form>
 
-</div>
+        @{
+            if (ViewBag.Message != null)
+            {
+                if ((bool)ViewBag.IsSuccess)
+                {
+                    <h4 class="text-success">@ViewBag.Message</h4>
+                }
+                else
+                {
+                    <h4 class="text-danger">@ViewBag.Message</h4>
+                }
+            }
+
+
+        }
+
+    </div>

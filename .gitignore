@@ -348,3 +348,6 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+2C2P_test/2C2P_test.WebAPI/HttpModels/.DS_Store
+2C2P_test/2C2P_test.WebAPI/.DS_Store
+2C2P_test/.DS_Store
